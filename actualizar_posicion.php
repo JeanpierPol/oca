@@ -35,10 +35,9 @@ if (isset($_SESSION['jugadores']) && isset($_POST['indice']) && isset($_POST['su
     $rutaLog = __DIR__ . "/log/";
 
     if (!file_exists($rutaLog)) {
-        mkdir($rutaLog, 0777, true); // Crear la carpeta con permisos adecuados
+        mkdir($rutaLog, 0777, true); 
     }
 
-    // Abrir el archivo en modo agregar
     $log = fopen($rutaLog . $nombreLog, "a");
     fwrite($log, $registo_movimiento_jugador . PHP_EOL);
     fclose($log);

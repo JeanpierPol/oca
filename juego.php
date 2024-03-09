@@ -16,52 +16,50 @@ if (isset($_SESSION['jugadores'])) {
     $numero_de_casillas = $tableroOca->get_cantidad_casillas();
     $casillas_especiales = $tableroOca->get_casillas_especiales();
 ?>
+    <div id="tablero">
+        <?php
+        for ($casilla = 1; $casilla <= $numero_de_casillas; $casilla++) {
+            $especial = in_array($casilla, $casillas_especiales);
+            if ($casilla % 8 == 1) {
+                echo '<div class="row">';
+            }
+        ?>
+            <div class="col casilla <?= $especial ? 'casilla-especial' : '' ?>" id="casilla-<?= $casilla ?>">Casilla Nº <?= $casilla ?> <?= $especial ? 'es especial' : '' ?></div>
+            <?php
+            if ($casilla % 8 == 0) { ?>
+                </div>
+            <?php }
+        } ?>
+    </div>
 
-<?php
-for ($casilla = 1; $casilla <= $numero_de_casillas; $casilla++) {
-    $especial = in_array($casilla, $casillas_especiales);
-    if ($casilla % 8 == 1) {
-        echo '<div class="row">';
-    }
-    ?>
-    <div class="col casilla <?= $especial ? 'casilla-especial' : '' ?>" id="casilla-<?= $casilla ?>">Casilla Nº <?= $casilla ?> <?= $especial ? 'es especial' : '' ?></div>
-    <?php
-    if ($casilla % 8 == 0) { ?>
-        </div>
-    <?php
-    }
-}
-?>
-
-
-    <table class="table">
-        <thead>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Jugador</th>
+            <th scope="col">Color</th>
+            <th scope="col">Posición</th>
+            <th scope="col">Botón</th>
+            <th scope="col">Dados</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($jugadores as $indice => $jugador) { ?>
             <tr>
-                <th scope="col">Jugador</th>
-                <th scope="col">Color</th>
-                <th scope="col">Posición</th>
-                <th scope="col">Botón</th>
-                <th scope="col">Dados</th>
+                <td><?= $jugador['nombre'] ?></td>
+                <td style="background-color: <?= $jugador['color'] ?>;"></td>
+                <td id="posicion-jugador-<?= $indice ?>">Posición: <?= $_SESSION['jugadores'][$indice]['posicion'] ?></td>
+                <td>
+                    <?php if ($_SESSION['turno'] == $indice) { ?>
+                        <button onclick="lanzar_dados(<?= $indice ?>)">Lanzar dados</button>
+                    <?php } ?>
+                </td>
+                <td>
+                    <span class="dado"></span>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($jugadores as $indice => $jugador) { ?>
-                <tr>
-                    <td><?= $jugador['nombre'] ?></td>
-                    <td style="background-color: <?= $jugador['color'] ?>;"></td>
-                    <td id="posicion-jugador-<?= $indice ?>">Posición: <?= $_SESSION['jugadores'][$indice]['posicion'] ?></td>
-                    <td>
-                        <?php if ($_SESSION['turno'] == $indice) { ?>
-                            <button onclick="lanzar_dados(<?= $indice ?>)">Lanzar dados</button>
-                        <?php } ?>
-                    </td>
-                    <td>
-                        <span class="dado"></span>
-                    </td>
-                </tr>
-            <?php } ?>
-        </tbody>
-    </table>
+        <?php } ?>
+    </tbody>
+</table>
 
 <?php
 } else {
@@ -90,11 +88,14 @@ for ($casilla = 1; $casilla <= $numero_de_casillas; $casilla++) {
     }
 
     .jugador {
-        padding: 10px;
+        padding: 30px;
         width: 20px;
         height: 20px;
+        border-radius: 50%;
     }
-
+    #tablero{
+        background-image: url(https://upload.wikimedia.org/wikipedia/commons/f/ff/Anas_platyrhynchos_qtl1.jpg);
+    }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
@@ -125,15 +126,15 @@ for ($casilla = 1; $casilla <= $numero_de_casillas; $casilla++) {
             data: {
                 indice: indice,
                 sumaDados: sumaDados,
-                casillas_especiales : casillas_especiales
+                casillas_especiales: casillas_especiales
             },
             success: function(response) {
                 $('#posicion-jugador-' + indice).text('Posición ' + response);
                 console.log(response)
-                setTimeout(() =>{
+                setTimeout(() => {
                     location.reload();
-                },1000)
-                
+                }, 1000)
+
             }
         });
     }

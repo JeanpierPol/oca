@@ -1,5 +1,5 @@
 <?php
-    class Jugador{
+    class Ficha{
         public $nombre;
         public $color;
         public $posicion;

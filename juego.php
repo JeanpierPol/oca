@@ -20,46 +20,45 @@ if (isset($_SESSION['jugadores'])) {
         <?php
         for ($casilla = 1; $casilla <= $numero_de_casillas; $casilla++) {
             $especial = in_array($casilla, $casillas_especiales);
-            if ($casilla % 8 == 1) {
-                echo '<div class="row">';
-            }
-        ?>
-            <div class="col casilla <?= $especial ? 'casilla-especial' : '' ?>" id="casilla-<?= $casilla ?>">Casilla Nº <?= $casilla ?> <?= $especial ? 'es especial' : '' ?></div>
-            <?php
-            if ($casilla % 8 == 0) { ?>
+            if ($casilla % 8 == 1) { ?>
+                <div class="row">
+                <?php } ?>
+                <div class="col casilla <?= $especial ? 'casilla-especial' : '' ?>" id="casilla-<?= $casilla ?>">Casilla Nº <?= $casilla ?> <?= $especial ? 'es especial' : '' ?></div>
+                <?php
+                if ($casilla % 8 == 0) { ?>
                 </div>
-            <?php }
-        } ?>
+        <?php }
+            } ?>
     </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Jugador</th>
-            <th scope="col">Color</th>
-            <th scope="col">Posición</th>
-            <th scope="col">Botón</th>
-            <th scope="col">Dados</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($jugadores as $indice => $jugador) { ?>
+    <table class="table">
+        <thead>
             <tr>
-                <td><?= $jugador['nombre'] ?></td>
-                <td style="background-color: <?= $jugador['color'] ?>;"></td>
-                <td id="posicion-jugador-<?= $indice ?>">Posición: <?= $_SESSION['jugadores'][$indice]['posicion'] ?></td>
-                <td>
-                    <?php if ($_SESSION['turno'] == $indice) { ?>
-                        <button onclick="lanzar_dados(<?= $indice ?>)">Lanzar dados</button>
-                    <?php } ?>
-                </td>
-                <td>
-                    <span class="dado"></span>
-                </td>
+                <th scope="col">Jugador</th>
+                <th scope="col">Color</th>
+                <th scope="col">Posición</th>
+                <th scope="col">Botón</th>
+                <th scope="col">Dados</th>
             </tr>
-        <?php } ?>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <?php foreach ($jugadores as $indice => $jugador) { ?>
+                <tr>
+                    <td><?= $jugador['nombre'] ?></td>
+                    <td style="background-color: <?= $jugador['color'] ?>;"></td>
+                    <td id="posicion-jugador-<?= $indice ?>">Posición: <?= $_SESSION['jugadores'][$indice]['posicion'] ?></td>
+                    <td>
+                        <?php if ($_SESSION['turno'] == $indice) { ?>
+                            <button onclick="lanzar_dados(<?= $indice ?>)">Lanzar dados</button>
+                        <?php } ?>
+                    </td>
+                    <td>
+                        <span class="dado"></span>
+                    </td>
+                </tr>
+            <?php } ?>
+        </tbody>
+    </table>
 
 <?php
 } else {
@@ -93,7 +92,8 @@ if (isset($_SESSION['jugadores'])) {
         height: 20px;
         border-radius: 50%;
     }
-    #tablero{
+
+    #tablero {
         background-image: url(https://upload.wikimedia.org/wikipedia/commons/f/ff/Anas_platyrhynchos_qtl1.jpg);
     }
 </style>

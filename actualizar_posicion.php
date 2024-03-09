@@ -38,9 +38,6 @@ if (isset($_SESSION['jugadores']) && isset($_POST['indice']) && isset($_POST['su
         $registo_movimiento_jugador = $jugador['nombre'] . "ha ganado";
     }
 
-
-
-
     //Historial de la partida o log
     $nombreLog = "log_" . date("d_m_Y") . ".txt";
     $rutaLog = __DIR__ . "/log/";

@@ -12,7 +12,7 @@
             <h2>Numero de jugadores</h2>
             <?php
                 include_once ('constantes_globales.php');
-                for ($i=2; $i <= JUGADORES_MAXIMOS; $i++) { 
+                for ($i=JUGADORES_MINIMOS; $i <= JUGADORES_MAXIMOS; $i++) { 
                     ?>
                         <input type="submit" value="<?=$i?>" name="n_jugadores" class="btn btn-primary btn-lg">
                     <?php

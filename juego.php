@@ -105,25 +105,27 @@ for ($casilla = 1; $casilla <= $numero_de_casillas; $casilla++) {
     });
 
     function ficha(posicion, color) {
-        var fichaN = document.createElement('div');
+        let fichaN = document.createElement('div');
         fichaN.classList.add('jugador');
         fichaN.style.backgroundColor = color;
-        var posicionActual = document.querySelector('#casilla-' + posicion);
+        let posicionActual = document.querySelector('#casilla-' + posicion);
         posicionActual.appendChild(fichaN);
     }
 
     function lanzar_dados(indice) {
-        var dado1 = Math.floor(Math.random() * 6) + 1;
-        var dado2 = Math.floor(Math.random() * 6) + 1;
+        let dado1 = Math.floor(Math.random() * 6) + 1;
+        let dado2 = Math.floor(Math.random() * 6) + 1;
         $('.dado').text(dado1 + " " + dado2);
-        var sumaDados = dado1 + dado2;
+        let sumaDados = dado1 + dado2;
+        let casillas_especiales = <?= json_encode($casillas_especiales) ?>;
 
         $.ajax({
             type: "POST",
             url: "actualizar_posicion.php",
             data: {
                 indice: indice,
-                sumaDados: sumaDados
+                sumaDados: sumaDados,
+                casillas_especiales : casillas_especiales
             },
             success: function(response) {
                 $('#posicion-jugador-' + indice).text('Posición ' + response);

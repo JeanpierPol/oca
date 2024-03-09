@@ -129,9 +129,11 @@ for ($casilla = 1; $casilla <= $numero_de_casillas; $casilla++) {
                 $('#posicion-jugador-' + indice).text('Posición ' + response);
 
                 console.log(response)
+                /*
                 setTimeout(() =>{
                     location.reload();
                 },1000)
+                */
                 
             }
         });

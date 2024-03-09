@@ -11,38 +11,38 @@ if (isset($_SESSION['jugadores']) && isset($_POST['indice']) && isset($_POST['su
     $fecha_y_hora_actuales = date("d-m-Y H:i:s");
 
     if ($_SESSION['turno'] >= count($_SESSION['jugadores'])) {
-        $_SESSION['turno'] = 1; 
+        $_SESSION['turno'] = 1;
     } else {
-        $_SESSION['turno'] += 1; 
+        $_SESSION['turno'] += 1;
     }
-    
+
 
     $posicion_actual = $_SESSION['jugadores'][$n_jugador]['posicion'];
-    
+    $registo_movimiento_jugador = "";
+
     if ($posicion_actual + $dados < 63) {
         $_SESSION['jugadores'][$n_jugador]['posicion'] += $dados;
-    } elseif($posicion_actual + $dados > 63){
+        $registo_movimiento_jugador = $jugador['nombre']  .  " esta en la posicion $posicion_actual y avanzara $dados casillas a las $fecha_y_hora_actuales";
+    } elseif ($posicion_actual + $dados > 63) {
         $rebote = $posicion_actual + $dados - 63;
-        echo "$rebote";
+        $registo_movimiento_jugador = $jugador['nombre']  .  " esta en la posicion $posicion_actual y avanzara $dados casillas pero reboto a la casilla " .  $posicion_actual - $rebote   . " a las $fecha_y_hora_actuales";
         $_SESSION['jugadores'][$n_jugador]['posicion'] -= $rebote;
-    } elseif($posicion_actual + $dados == 63){
-        echo "Has ganado";
+    } elseif ($posicion_actual + $dados == 63) {
+        $registo_movimiento_jugador = $jugador['nombre'] . "ha ganado";
     }
-    
 
-    //escritura de logs
-    $nombreLog ="log_". date("d_m_Y").".txt"; 
-    $registo_movimiento_jugador = $jugador['nombre']  .  " esta en la posicion $posicion_actual y avanzara $dados casillas a las $fecha_y_hora_actuales";   
-    
-    $log = fopen(__DIR__."/log/$nombreLog", "a");
+    $nombreLog = "log_" . date("d_m_Y") . ".txt";
+    $rutaLog = __DIR__ . "/log/";
+
+    if (!file_exists($rutaLog)) {
+        mkdir($rutaLog, 0777, true); // Crear la carpeta con permisos adecuados
+    }
+
+    // Abrir el archivo en modo agregar
+    $log = fopen($rutaLog . $nombreLog, "a");
     fwrite($log, $registo_movimiento_jugador . PHP_EOL);
     fclose($log);
-    
 
-    
-    
-    
 } else {
     echo "Error: Datos insuficientes o sesión no iniciada.";
 }
-?>
